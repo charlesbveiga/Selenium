@@ -1,6 +1,8 @@
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -9,12 +11,23 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class TesteFramesEJanelas {
 	
-	@Test
-	public void DeveInteragirComFrames() {
-		WebDriver driver = new FirefoxDriver();
+	private WebDriver driver;
+	
+	@Before
+	public void inicializa(){
+		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+	}
+	
+	@After 
+	public void finaliza() {
+		//driver.quit();
+	}
+
 		
+	@Test
+	public void DeveInteragirComFrames() {
 		driver.switchTo().frame("frame1");
 		driver.findElement(By.id("frameButton")).click();
 		Alert alert = driver.switchTo().alert();
@@ -28,10 +41,6 @@ public class TesteFramesEJanelas {
 	
 	@Test
 	public void DeveInteragirComJanelas() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().maximize();
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
-		
 		driver.findElement(By.id("buttonPopUpEasy")).click();
 		driver.switchTo().window("Popup");
 		driver.findElement(By.tagName("textarea")).sendKeys("Deu Certo?");
@@ -43,10 +52,6 @@ public class TesteFramesEJanelas {
 
 	@Test
 	public void DeveInteragirComJanelasSemTitulo() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().maximize();
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
-		
 		driver.findElement(By.id("buttonPopUpHard")).click();
 		System.out.println(driver.getWindowHandle());
 		System.out.println(driver.getWindowHandles());

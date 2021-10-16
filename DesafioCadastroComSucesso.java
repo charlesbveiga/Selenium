@@ -1,6 +1,8 @@
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,12 +12,22 @@ import org.openqa.selenium.support.ui.Select;
 
 public class DesafioCadastroComSucesso {
 	
-	@Test
-	public void DesafioCadastroComSucesso() {
-		WebDriver driver = new FirefoxDriver();
+	private WebDriver driver;
+	
+	@Before
+	public void inicializa(){
+		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
-		
+	}
+	
+	@After 
+	public void finaliza() {
+		//driver.quit();
+	}
+
+	@Test
+	public void DesafioCadastroComSucesso() {
 		driver.findElement(By.id("elementosForm:nome")).sendKeys("Charles");
 		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Batista Veiga");
 		driver.findElement(By.id("elementosForm:sexo:0")).click();
@@ -33,7 +45,6 @@ public class DesafioCadastroComSucesso {
 		Assert.assertEquals("Comida: Carne", driver.findElement(By.id("descComida")).getText());
 		Assert.assertEquals("Escolaridade: superior", driver.findElement(By.id("descEscolaridade")).getText());
 		Assert.assertEquals("Esportes: Futebol", driver.findElement(By.id("descEsportes")).getText());
-		//driver.quit();
 	}
 
 }

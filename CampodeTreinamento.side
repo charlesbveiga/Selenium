@@ -1,0 +1,21 @@
+{
+  "id": "c0bc9e4c-2c12-4210-b419-6d7950a86cb7",
+  "version": "2.0",
+  "name": "CampodeTreinamento",
+  "url": "",
+  "tests": [{
+    "id": "af5cc256-e19d-46d9-b85d-b81f3e9699f9",
+    "name": "Untitled",
+    "commands": []
+  }],
+  "suites": [{
+    "id": "1d7ece98-c8b8-4c9a-86dd-c845a7536437",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["af5cc256-e19d-46d9-b85d-b81f3e9699f9"]
+  }],
+  "urls": [],
+  "plugins": []
+}

@@ -15,13 +15,15 @@ public class DesafioCadastroComSucesso {
 	
 	private WebDriver driver;
 	private DSL dsl;
+	private CampoTreinamentoPage page;
 	
 	@Before
 	public void inicializa(){
 		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
-		dsl = new DSL(driver); 
+		dsl = new DSL(driver);
+		page = new CampoTreinamentoPage(driver);
 	}
 	
 	@After 
@@ -31,64 +33,63 @@ public class DesafioCadastroComSucesso {
 
 	@Test
 	public void DesafioCadastroComSucesso() {
-		dsl.escreve("elementosForm:nome", "Charles");
-		dsl.escreve("elementosForm:sobrenome", "Batista Veiga");
-		dsl.clicarRadio("elementosForm:sexo:0");
-		dsl.clicarRadio("elementosForm:comidaFavorita:0");
-		dsl.selecionarCombo("elementosForm:escolaridade", "Superior");
-		dsl.selecionarCombo("elementosForm:esportes","Futebol");
-		dsl.clicarBotao("elementosForm:cadastrar");
+		page.setNome("Charles");
+		page.setSobrenome("Batista Veiga");
+		page.setSexoMasculino();
+		page.setComidaFavoritaCarne();
+		page.setEscolaridade("Superior");
+		page.setEsporte("Futebol");
+		page.cadastrar();
 		
-		Assert.assertTrue(dsl.obterTexto("resultado").startsWith("Cadastrado!"));
-		Assert.assertTrue(dsl.obterTexto("descNome").endsWith("Charles"));
-		Assert.assertEquals("Sobrenome: Batista Veiga", dsl.obterTexto("descSobrenome"));
-		Assert.assertEquals("Sexo: Masculino", dsl.obterTexto("descSexo"));
-		Assert.assertEquals("Comida: Carne", dsl.obterTexto("descComida"));
-		Assert.assertEquals("Escolaridade: superior",dsl.obterTexto("descEscolaridade"));
-		Assert.assertEquals("Esportes: Futebol", dsl.obterTexto("descEsportes"));
+		Assert.assertTrue(page.obterResultadoCadastro().startsWith("Cadastrado!"));
+		Assert.assertTrue(page.obterNomeCadastro().endsWith("Charles"));
+		Assert.assertEquals("Sobrenome: Batista Veiga", page.obterSobrenomeCadastro());
+		Assert.assertEquals("Sexo: Masculino", page.obterSexoCadastro());
+		Assert.assertEquals("Comida: Carne", page.obterComidaCadastro);
+		Assert.assertEquals("Escolaridade: superior",page.obterEscolaridadeCadastro());
+		Assert.assertEquals("Esportes: Futebol", page.obterEsporteCadastro());
 	}
 
 	@Test
 	public void DeveValidarNomeObrigatorio() {
-		dsl.clicarBotao("elementosForm:cadastrar");
+		page.cadastrar();
 		Assert.assertEquals("Nome eh obrigatorio", dsl.alertaObterTextoEAceita());
 	}
 	
 	@Test
 	public void DeveValidarSobreNomeObrigatorio() {
-		dsl.escreve("elementosForm:nome", "Charles");
-		dsl.clicarBotao("elementosForm:cadastrar");
+		page.setNome("Nome qualquer");
+		page.cadastrar();
 		Assert.assertEquals("Sobrenome eh obrigatorio",  dsl.alertaObterTextoEAceita());
 	}
 	
 	@Test
 	public void DeveValidarSexoObrigatorio() {
-		dsl.escreve("elementosForm:nome", "Charles");
-		dsl.escreve("elementosForm:sobrenome", "Batista Veiga");
-		dsl.clicarBotao("elementosForm:cadastrar");
+		page.setNome("Nome qualquer");
+		page.setSobrenome("Sobrenome qualquer");
+		page.cadastrar();
 		Assert.assertEquals("Sexo eh obrigatorio",  dsl.alertaObterTextoEAceita());
 		}
 	
 	@Test
 	public void DeveValidarComidaVegetariana() {
-		dsl.escreve("elementosForm:nome", "Charles");
-		dsl.escreve("elementosForm:sobrenome", "Batista Veiga");
-		dsl.clicarRadio("elementosForm:sexo:1");
-		dsl.clicarRadio("elementosForm:comidaFavorita:0");
-		dsl.clicarRadio("elementosForm:comidaFavorita:3");
-		dsl.clicarBotao("elementosForm:cadastrar");
+		page.setNome("Nome qualquer");
+		page.setSobrenome("Sobrenome qualquer");
+		page.setSexoFeminino();
+		page.setComidaFavoritaCarne();
+		page.setComidaFavoritaVegetariana();
+		page.cadastrar();
 		Assert.assertEquals("Tem certeza que voce eh vegetariano?", dsl.alertaObterTextoEAceita());
 		}
 		
 	@Test
 	public void DeveValidarEsportistaIndeciso() {
-		dsl.escreve("elementosForm:nome", "Charles");
-		dsl.escreve("elementosForm:sobrenome", "Batista Veiga");
-		dsl.clicarRadio("elementosForm:sexo:1");
-		dsl.clicarRadio("elementosForm:comidaFavorita:0");
-		dsl.selecionarCombo("elementosForm:esportes", "Futebol");
-		dsl.selecionarCombo("elementosForm:esportes", "O que eh esporte?");
-		dsl.clicarBotao("elementosForm:cadastrar");
+		page.setNome("Nome qualquer");
+		page.setSobrenome("Sobrenome qualquer");
+		page.setSexoFeminino();
+		page.setComidaFavoritaCarne();
+		page.setEsporte("Futebol", "O que eh esporte?");
+		page.cadastrar();
 		Assert.assertEquals("Voce faz esporte ou nao?", dsl.alertaObterTextoEAceita());
 		}
 }

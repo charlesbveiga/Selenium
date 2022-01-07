@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class TesteFramesEJanelas {
@@ -36,17 +37,27 @@ public class TesteFramesEJanelas {
 		Assert.assertEquals("Frame OK!", msg);
 		
 		dsl.sairFrame();
-		dsl.escreve("elementosForm:nome", msg);
+		dsl.escrever("elementosForm:nome", msg);
+	}
+	
+	@Test
+	public void deveInteragirComFrameEscondido( ) {
+		WebElement frame = driver.findElement(By.id("frame2"));
+		dsl.executarJS("window.scrollBy(0, arguments[0])", frame.getLocation().y);
+		dsl.entrarFrame ("frame2");
+		dsl.clicarBotao ("frameButton");
+		String msg =  dsl.alertaObterTextoEAceita();
+		Assert.assertEquals("Frame OK!", msg);
 	}
 	
 	@Test
 	public void deveInteragirComJanelas() {
 		dsl.clicarBotao("buttonPopUpEasy");
 		dsl.trocarJanela("Popup");
-		dsl.escreve(By.tagName("textarea"),"Deu Certo?");
+		dsl.escrever(By.tagName("textarea"),"Deu Certo?");
 	  //driver.close();
 		dsl.trocarJanela("");
-		dsl.escreve(By.tagName("textarea"),"E Agora?");
+		dsl.escrever(By.tagName("textarea"),"E Agora?");
 	}
 
 	@Test
@@ -55,8 +66,8 @@ public class TesteFramesEJanelas {
 		System.out.println(driver.getWindowHandle());
 		System.out.println(driver.getWindowHandles());
 		dsl.trocarJanela((String)driver.getWindowHandles().toArray()[1]);
-		dsl.escreve(By.tagName("textarea"),"Deu Certo?");
+		dsl.escrever(By.tagName("textarea"),"Deu Certo?");
 		dsl.trocarJanela((String)driver.getWindowHandles().toArray()[0]);
-		dsl.escreve(By.tagName("textarea"),"E Agora?");
+		dsl.escrever(By.tagName("textarea"),"E Agora?");
 	}
 }

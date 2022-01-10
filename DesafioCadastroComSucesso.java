@@ -36,18 +36,18 @@ public class DesafioCadastroComSucesso {
 		page.setNome("Charles");
 		page.setSobrenome("Batista Veiga");
 		page.setSexoMasculino();
-		page.setComidaFavoritaCarne();
+		page.setComidaCarne();
 		page.setEscolaridade("Superior");
 		page.setEsporte("Futebol");
 		page.cadastrar();
 		
-		Assert.assertTrue(page.obterResultadoCadastro().startsWith("Cadastrado!"));
-		Assert.assertTrue(page.obterNomeCadastro().endsWith("Charles"));
-		Assert.assertEquals("Sobrenome: Batista Veiga", page.obterSobrenomeCadastro());
-		Assert.assertEquals("Sexo: Masculino", page.obterSexoCadastro());
-		Assert.assertEquals("Comida: Carne", page.obterComidaCadastro);
-		Assert.assertEquals("Escolaridade: superior",page.obterEscolaridadeCadastro());
-		Assert.assertEquals("Esportes: Futebol", page.obterEsporteCadastro());
+		Assert.assertEquals("Cadastrado!", page.obterResultadoCadastro());
+		Assert.assertEquals("Charles", page.obterNomeCadastro());
+		Assert.assertEquals("Batista Veiga", page.obterSobrenomeCadastro());
+		Assert.assertEquals("Masculino", page.obterSexoCadastro());
+		Assert.assertEquals("Carne", page.obterComidaCadastro());
+		Assert.assertEquals("superior",page.obterEscolaridadeCadastro());
+		Assert.assertEquals("Futebol", page.obterEsportesCadastro());
 	}
 
 	@Test
@@ -76,8 +76,8 @@ public class DesafioCadastroComSucesso {
 		page.setNome("Nome qualquer");
 		page.setSobrenome("Sobrenome qualquer");
 		page.setSexoFeminino();
-		page.setComidaFavoritaCarne();
-		page.setComidaFavoritaVegetariana();
+		page.setComidaCarne();
+		page.setComidaVegetariano();
 		page.cadastrar();
 		Assert.assertEquals("Tem certeza que voce eh vegetariano?", dsl.alertaObterTextoEAceita());
 		}
@@ -87,7 +87,7 @@ public class DesafioCadastroComSucesso {
 		page.setNome("Nome qualquer");
 		page.setSobrenome("Sobrenome qualquer");
 		page.setSexoFeminino();
-		page.setComidaFavoritaCarne();
+		page.setComidaCarne();
 		page.setEsporte("Futebol", "O que eh esporte?");
 		page.cadastrar();
 		Assert.assertEquals("Voce faz esporte ou nao?", dsl.alertaObterTextoEAceita());

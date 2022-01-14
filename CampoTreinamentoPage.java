@@ -1,13 +1,9 @@
+package br.ce.wcaquino.page;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-public class CampoTreinamentoPage {
-	
-	private DSL dsl;
-	
-	public CampoTreinamentoPage(WebDriver driver) {
-		dsl = new DSL(driver);
-	}
+import br.ce.wcaquino.core.BasePage;
+
+public class CampoTreinamentoPage extends BasePage {
 
 	public void setNome(String nome) {
 		dsl.escrever("elementosForm:nome", nome);
@@ -53,6 +49,7 @@ public class CampoTreinamentoPage {
 	public String obterResultadoCadastro(){
 		return dsl.obterTexto(By.xpath("//*[@id='resultado']/span"));
 	}
+	
 	
 	public String obterNomeCadastro(){
 		return dsl.obterTexto(By.xpath("//*[@id='descNome']/span"));

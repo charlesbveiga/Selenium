@@ -1,41 +1,40 @@
+package br.ce.wcaquino.test;
+import static br.ce.wcaquino.core.DriverFactory.getDriver;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
+import br.ce.wcaquino.core.DSL;
+import br.ce.wcaquino.core.DriverFactory;
 
 public class TesteAlert {
-
-	private WebDriver driver;
+	
 	private DSL dsl;
+	
 	@Before
 	public void inicializa(){
-		driver = new FirefoxDriver();
-		driver.manage().window().maximize();
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
-		dsl = new DSL (driver);
+		getDriver().get("file:///" + System.getProperty("user.dir") + "/src/main/resources/componentes.html");
+		dsl = new DSL();
 	}
 	
-	@After 
-	public void finaliza() {
-		//driver.quit();
+	@After
+	public void finaliza(){
+		//DriverFactory.killDriver();
 	}
 
 	@Test
-	public void deveInteragirComAlertSimples() {
+	public void deveInteragirComAlertSimples(){
 		dsl.clicarBotao("alert");
-		String texto = dsl.alertaObterTextoEAceita();
+		String texto = dsl.alertaObterTextoEAceita(); 
 		Assert.assertEquals("Alert Simples", texto);
 		
-		dsl.escreve("elementosForm:nome",texto);
+		dsl.escrever("elementosForm:nome", texto);
 	}
 	
 	@Test
-	public void deveInteragirComConfirm() {
+	public void deveInteragirComAlertConfirm(){
 		dsl.clicarBotao("confirm");
 		Assert.assertEquals("Confirm Simples", dsl.alertaObterTextoEAceita());
 		Assert.assertEquals("Confirmado", dsl.alertaObterTextoEAceita());
@@ -46,7 +45,7 @@ public class TesteAlert {
 	}
 	
 	@Test
-	public void deveInteragirComAlertPrompt() {
+	public void deveInteragirComAlertPrompt(){
 		dsl.clicarBotao("prompt");
 		Assert.assertEquals("Digite um numero", dsl.alertaObterTexto());
 		dsl.alertaEscrever("12");
